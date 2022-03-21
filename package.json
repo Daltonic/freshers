@@ -1,0 +1,48 @@
+{
+  "name": "freshers",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@cometchat-pro/chat": "3.0.6",
+    "@material-tailwind/react": "0.3.4",
+    "firebase": "^9.6.8",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hooks-global-state": "^1.0.2",
+    "react-router-dom": "6",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^2.0.4",
+    "@vitejs/plugin-react": "^1.0.7",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^16.0.0",
+    "mnemonics": "^1.1.3",
+    "web3": "^1.7.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
