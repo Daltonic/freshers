@@ -28,22 +28,18 @@ const connectWallet = async () => {
 }
 
 const loadBlockchainData = async () => {
-  try {
-    const web3 = window.web3
-    const networkId = await web3.eth.net.getId()
-    const networkData = Store.networks[networkId]
+  const web3 = window.web3
+  const networkId = await web3.eth.net.getId()
+  const networkData = Store.networks[networkId]
 
-    if (networkData) {
-      const accounts = await web3.eth.getAccounts()
-      setGlobalState('connectedAccount', accounts[0])
-      // Load Contract
-      const contract = new web3.eth.Contract(Store.abi, networkData.address)
-      setGlobalState('contract', contract)
-    } else {
-      window.alert('Store contract not deployed to detected network.')
-    }
-  } catch (error) {
-    setAlert(JSON.stringify(error), 'red')
+  if (networkData) {
+    const accounts = await web3.eth.getAccounts()
+    setGlobalState('connectedAccount', accounts[0])
+    // Load Contract
+    const contract = new web3.eth.Contract(Store.abi, networkData.address)
+    setGlobalState('contract', contract)
+  } else {
+    window.alert('Store contract not deployed to detected network.')
   }
 }
 

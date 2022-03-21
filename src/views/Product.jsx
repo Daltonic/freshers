@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Button, CardImage } from '@material-tailwind/react'
 import { getProduct, deleteProduct, auth } from '../firebase'
 import { setGlobalState, useGlobalState } from '../store'
-// import { connectWallet } from '../shared/Freshers'
 
 const Product = () => {
   const { id } = useParams()
@@ -87,37 +86,26 @@ const Product = () => {
               </Button>
 
               {isLoggedIn ? (
-                <>
-                  {/* <Button
+                auth.currentUser.uid == product.uid ? (
+                  <Button
                     buttonType="link"
-                    color="amber"
+                    color="green"
                     size="md"
                     ripple="light"
-                    onClick={connectWallet}
                   >
-                    Buy with ETH
-                  </Button> */}
-                  {auth.currentUser.uid == product.uid ? (
-                    <Button
-                      buttonType="link"
-                      color="green"
-                      size="md"
-                      ripple="light"
-                    >
-                      Chat With Buyers
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => navigate('/chat/' + product.uid)}
-                      buttonType="link"
-                      color="green"
-                      size="md"
-                      ripple="light"
-                    >
-                      Chat WIth Seller
-                    </Button>
-                  )}
-                </>
+                    Chat With Buyers
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => navigate('/chat/' + product.uid)}
+                    buttonType="link"
+                    color="green"
+                    size="md"
+                    ripple="light"
+                  >
+                    Chat WIth Seller
+                  </Button>
+                )
               ) : null}
               {isLoggedIn && auth.currentUser.uid == product.uid ? (
                 <>

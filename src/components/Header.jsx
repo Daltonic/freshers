@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { setAlert, useGlobalState } from '../store'
 import { logout } from '../firebase'
 import { logOutWithCometChat } from '../cometChat'
+import { connectWallet } from '../shared/Freshers'
 import Navbar from '@material-tailwind/react/Navbar'
 import NavbarContainer from '@material-tailwind/react/NavbarContainer'
 import NavbarWrapper from '@material-tailwind/react/NavbarWrapper'
@@ -16,6 +17,7 @@ const Header = () => {
   const [openNavbar, setOpenNavbar] = useState(false)
   const [cart] = useGlobalState('cart')
   const [isLoggedIn] = useGlobalState('isLoggedIn')
+  const [connectedAccount] = useGlobalState('connectedAccount')
   const navigate = useNavigate()
 
   const handleSignOut = () => {
@@ -44,7 +46,7 @@ const Header = () => {
         <NavbarCollapse open={openNavbar}>
           {isLoggedIn ? (
             <Nav leftSide>
-              <NavItem active="light" ripple="light">
+              <NavItem ripple="light">
                 <Link to="/customers">customers</Link>
               </NavItem>
               <NavItem ripple="light">
@@ -56,9 +58,20 @@ const Header = () => {
           )}
           <Nav rightSide>
             {isLoggedIn ? (
-              <NavItem onClick={handleSignOut} ripple="light">
-                <span className="cursor-pointer">Logout</span>
-              </NavItem>
+              <>
+                {connectedAccount ? null : (
+                  <NavItem
+                    onClick={connectWallet}
+                    active="light"
+                    ripple="light"
+                  >
+                    <span className="cursor-pointer">Connect Wallet</span>
+                  </NavItem>
+                )}
+                <NavItem onClick={handleSignOut} ripple="light">
+                  <span className="cursor-pointer">Logout</span>
+                </NavItem>
+              </>
             ) : (
               <NavItem ripple="light">
                 <Link to="/signin" className="cursor-pointer">
