@@ -21,11 +21,13 @@ const Header = () => {
   const navigate = useNavigate()
 
   const handleSignOut = () => {
-    logout().then(() => {
-      logOutWithCometChat().then(() => {
-        setAlert('Logged out successfully')
-        navigate('/signin')
-      })
+    logout().then((res) => {
+      if (res) {
+        logOutWithCometChat().then(() => {
+          setAlert('Logged out successfully')
+          navigate('/signin')
+        })
+      }
     })
   }
 

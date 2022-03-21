@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { updateProduct, getProduct, auth } from '../firebase'
 import { setAlert } from '../store'
+import { useGlobalState } from '../store'
 
 const EditProduct = () => {
   const { id } = useParams()
@@ -13,6 +14,7 @@ const EditProduct = () => {
   const [price, setPrice] = useState('')
   const [imgURL, setImgURL] = useState('')
   const [description, setDescription] = useState('')
+  const [account] = useGlobalState('connectedAccount')
 
   useEffect(() => {
     getProduct(id).then((data) => {
@@ -27,8 +29,20 @@ const EditProduct = () => {
 
   const handleProductUpdate = (e) => {
     e.preventDefault()
+    if (!account) {
+      setAlert('Please connect your metamask account!', 'red')
+      return
+    }
+
     if (name == '' || price == '' || imgURL == '' || description == '') return
-    updateProduct({ ...product, name, price, imgURL, description }).then(() => {
+    updateProduct({
+      ...product,
+      name,
+      price,
+      imgURL,
+      description,
+      account,
+    }).then(() => {
       setAlert('Product updated successfully')
       navigate('/product/' + product.id)
     })

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Button, CardImage } from '@material-tailwind/react'
 import { getProduct, deleteProduct, auth } from '../firebase'
 import { setGlobalState, useGlobalState } from '../store'
+import { payWithEthers } from '../shared/Freshers'
 
 const Product = () => {
   const { id } = useParams()
@@ -11,6 +12,8 @@ const Product = () => {
   const [product, setProduct] = useState(null)
   const [cart] = useGlobalState('cart')
   const [isLoggedIn] = useGlobalState('isLoggedIn')
+  const [buyer] = useGlobalState('connectedAccount')
+  const [ethToUsd] = useGlobalState('ethToUsd')
 
   const addToCart = () => {
     const item = product
@@ -26,12 +29,16 @@ const Product = () => {
     setAlert('Product added to cart')
   }
 
+  const handlePayWithEthers = () => {
+    const item = { ...product, buyer, price: product.price / ethToUsd }
+    payWithEthers(item).then((res) => {
+      if (res) setAlert('Product purchased!')
+    })
+  }
+
   const handleDeleteProduct = () => {
     deleteProduct(product).then(() => {
-      setGlobalState('alert', {
-        show: true,
-        msg: 'Product deleted successfully',
-      })
+      setAlert('Product deleted!')
       navigate('/')
     })
   }
@@ -62,7 +69,7 @@ const Product = () => {
               </h1>
               <h2 className="sr-only">Product information</h2>
               <div className="flex flex-row justify-start items-center">
-                <span className="text-xl text-gray-900 font-bold text-green-500">
+                <span className="text-xl font-bold text-green-500">
                   {toCurrency(product.price)}
                 </span>
                 <span className="text-xs mx-4">
@@ -86,26 +93,30 @@ const Product = () => {
               </Button>
 
               {isLoggedIn ? (
-                auth.currentUser.uid == product.uid ? (
-                  <Button
-                    buttonType="link"
-                    color="green"
-                    size="md"
-                    ripple="light"
-                  >
-                    Chat With Buyers
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => navigate('/chat/' + product.uid)}
-                    buttonType="link"
-                    color="green"
-                    size="md"
-                    ripple="light"
-                  >
-                    Chat WIth Seller
-                  </Button>
-                )
+                <>
+                  {auth.currentUser.uid != product.uid ? (
+                    <Button
+                      onClick={handlePayWithEthers}
+                      color="amber"
+                      size="md"
+                      ripple="light"
+                    >
+                      Buy with ETH
+                    </Button>
+                  ) : null}
+
+                  {auth.currentUser.uid == product.uid ? null : (
+                    <Button
+                      onClick={() => navigate('/chat/' + product.uid)}
+                      buttonType="link"
+                      color="green"
+                      size="md"
+                      ripple="light"
+                    >
+                      Chat WIth Seller
+                    </Button>
+                  )}
+                </>
               ) : null}
               {isLoggedIn && auth.currentUser.uid == product.uid ? (
                 <>

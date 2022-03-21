@@ -6,6 +6,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
   cart: [],
   contract: null,
   connectedAccount: '',
+  ethToUsd: 0,
 })
 
 const setAlert = (msg, color = 'amber') => {
@@ -15,4 +16,12 @@ const setAlert = (msg, color = 'amber') => {
   }, 5000)
 }
 
-export { useGlobalState, setGlobalState, setAlert }
+const latestPrice = async () => {
+  await fetch(
+    'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
+  )
+    .then((data) => data.json())
+    .then((res) => setGlobalState('ethToUsd', res.USD))
+}
+
+export { useGlobalState, setGlobalState, setAlert, latestPrice }

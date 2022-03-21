@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { useGlobalState, setGlobalState } from './store'
+import { useGlobalState, setGlobalState, latestPrice } from './store'
 import { auth, onAuthStateChanged } from './firebase'
 import Product from './views/Product'
 import Home from './views/Home'
@@ -31,6 +31,7 @@ function App() {
       }
       setIsLoaded(true)
     })
+    latestPrice()
   }, [])
 
   return (
@@ -38,7 +39,9 @@ function App() {
       {isLoaded ? (
         <>
           {alert.show ? (
-            <div className={`text-white px-6 py-2 border-0 rounded relative bg-${alert.color}-500`}>
+            <div
+              className={`text-white px-6 py-2 border-0 rounded relative bg-${alert.color}-500`}
+            >
               <span className="text-xl inline-block mr-5 align-middle">
                 <i className="fas fa-bell" />
               </span>

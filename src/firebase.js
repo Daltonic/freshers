@@ -63,6 +63,7 @@ const registerWithEmailAndPassword = async (
       fullname,
       email,
       phone,
+      account,
       address,
     })
 
@@ -75,6 +76,7 @@ const registerWithEmailAndPassword = async (
 const logout = async () => {
   try {
     await signOut(auth)
+    return true
   } catch (error) {
     setAlert(JSON.stringify(error), 'red')
   }
@@ -108,6 +110,7 @@ const addProduct = async (product) => {
         email: auth.currentUser.email,
         price: product.price,
         description: product.description,
+        account: product.account,
         imgURL: product.imgURL,
         stock: ((Math.random() * 10) | 0) + 1,
         timestamp: serverTimestamp(),
@@ -172,7 +175,6 @@ const deleteProduct = async (product) => {
     setAlert(JSON.stringify(error), 'red')
   }
 }
-
 
 export {
   auth,

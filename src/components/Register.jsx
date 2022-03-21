@@ -11,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
+  const [account, setAccount] = useState('')
   const navigate = useNavigate()
 
   const handleRegister = async (e) => {
@@ -20,6 +21,7 @@ const Register = () => {
       password == '' ||
       fullname == '' ||
       phone == '' ||
+      account == '' ||
       address == ''
     )
       return
@@ -28,6 +30,7 @@ const Register = () => {
       password,
       fullname,
       phone,
+      account,
       address
     ).then((user) => {
       logout().then(() => {
@@ -45,6 +48,7 @@ const Register = () => {
     setEmail('')
     setPassword('')
     setPhone('')
+    setAccount('')
     setAddress('')
   }
 
@@ -100,12 +104,21 @@ const Register = () => {
               type="text"
               className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pl-10"
               placeholder="Address"
+              value={account}
+              onChange={(e) => setAccount(e.target.value)}
+              required
+            />
+          </div>
+          <div className="relative flex w-full flex-wrap items-stretch mb-3">
+            <input
+              type="text"
+              className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pl-10"
+              placeholder="Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
             />
           </div>
-
           <div className="relative flex w-full flex-wrap items-stretch justify-between items-center">
             <Link className="text-green-500" to="/signin">
               Already a member? sign in

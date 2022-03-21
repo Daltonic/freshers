@@ -1,21 +1,28 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '@material-tailwind/react/Button'
 import { addProduct } from '../firebase'
-import Header from '../components/Header'
 import { setAlert } from '../store'
+import { useGlobalState } from '../store'
+import Button from '@material-tailwind/react/Button'
+import Header from '../components/Header'
 
 const AddProduct = () => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [imgURL, setImgURL] = useState('')
   const [description, setDescription] = useState('')
+  const [account] = useGlobalState('connectedAccount')
   const navigate = useNavigate()
 
   const handleAddProduct = (e) => {
     e.preventDefault()
+    if (!account) {
+      setAlert('Please connect your metamask account!', 'red')
+      return
+    }
+
     if (name == '' || price == '' || imgURL == '' || description == '') return
-    addProduct({ name, price, imgURL, description }).then(() => {
+    addProduct({ name, price, imgURL, description, account }).then(() => {
       setAlert('Product created successfully')
       navigate('/')
     })
