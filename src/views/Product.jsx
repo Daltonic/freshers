@@ -94,7 +94,8 @@ const Product = () => {
 
               {isLoggedIn ? (
                 <>
-                  {auth.currentUser.uid != product.uid ? (
+                  {auth.currentUser.uid != product.uid &&
+                  product.account != buyer ? (
                     <Button
                       onClick={handlePayWithEthers}
                       color="amber"
