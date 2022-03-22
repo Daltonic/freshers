@@ -58,7 +58,7 @@ const loadWeb3 = async () => {
     const accounts = await web3.eth.getAccounts()
     setGlobalState('connectedAccount', accounts[0])
   } catch (error) {
-    setAlert(JSON.stringify(error), 'red')
+    alert('Please connect your metamask wallet!')
   }
 }
 

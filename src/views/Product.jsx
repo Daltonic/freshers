@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, CardImage } from '@material-tailwind/react'
 import { getProduct, deleteProduct, auth } from '../firebase'
-import { setGlobalState, useGlobalState } from '../store'
+import { setGlobalState, useGlobalState, setAlert } from '../store'
 import { payWithEthers } from '../shared/Freshers'
 
 const Product = () => {
@@ -30,7 +30,7 @@ const Product = () => {
   }
 
   const handlePayWithEthers = () => {
-    const item = { ...product, buyer, price: product.price / ethToUsd }
+    const item = { ...product, buyer, price: (product.price / ethToUsd).toFixed(4) }
     payWithEthers(item).then((res) => {
       if (res) setAlert('Product purchased!')
     })

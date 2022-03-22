@@ -24,12 +24,12 @@ import {
 } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCRE8tDbLc15fHYowCQ_7fEUOHZ088CMc4',
+  apiKey: process.env.REACT_APP_FB_AUTH_KEY,
   authDomain: 'fresher-a5113.firebaseapp.com',
   projectId: 'fresher-a5113',
   storageBucket: 'fresher-a5113.appspot.com',
   messagingSenderId: '443136794867',
-  appId: '1:443136794867:web:d612d53b5a35bc73039786',
+  appId: process.env.REACT_APP_FB_APP_ID,
 }
 
 const app = initializeApp(firebaseConfig)
@@ -39,7 +39,7 @@ const db = getFirestore(app)
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     return await signInWithEmailAndPassword(auth, email, password).then(
-      (user) => user.user
+      (res) => res.user
     )
   } catch (error) {
     setAlert(JSON.stringify(error), 'red')
@@ -51,6 +51,7 @@ const registerWithEmailAndPassword = async (
   password,
   fullname,
   phone,
+  account,
   address
 ) => {
   try {

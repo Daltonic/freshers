@@ -33,13 +33,15 @@ const Register = () => {
       account,
       address
     ).then((user) => {
-      logout().then(() => {
-        signInWithCometChat(user.uid, fullname).then(() => {
-          resetForm()
-          setAlert('Registeration in successfully')
-          navigate('/signin')
+      if (user) {
+        logout().then(() => {
+          signInWithCometChat(user.uid, fullname).then(() => {
+            resetForm()
+            setAlert('Registeration in successfully')
+            navigate('/signin')
+          })
         })
-      })
+      }
     })
   }
 
@@ -103,7 +105,7 @@ const Register = () => {
             <input
               type="text"
               className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pl-10"
-              placeholder="Address"
+              placeholder="Wallet Address"
               value={account}
               onChange={(e) => setAccount(e.target.value)}
               required

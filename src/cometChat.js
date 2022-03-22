@@ -1,9 +1,9 @@
 import { CometChat } from '@cometchat-pro/chat'
 
 const CONSTANTS = {
-  APP_ID: '2054917edda37b00',
-  REGION: 'us',
-  Auth_Key: '04034e9e043d6b14516d3c39fa64a8b19f794fb8',
+  APP_ID: process.env.REACT_APP_COMET_CHAT_APP_ID,
+  REGION: process.env.REACT_APP_COMET_CHAT_REGION,
+  Auth_Key: process.env.REACT_APP_COMET_CHAT_AUTH_KEY,
 }
 
 const initCometChat = async () => {
@@ -11,7 +11,7 @@ const initCometChat = async () => {
     const appID = CONSTANTS.APP_ID
     const region = CONSTANTS.REGION
 
-    const appSetting = await new CometChat.AppSettingsBuilder()
+    const appSetting = new CometChat.AppSettingsBuilder()
       .subscribePresenceForAllUsers()
       .setRegion(region)
       .build()
@@ -41,9 +41,7 @@ const signInWithCometChat = async (UID, name) => {
     const user = new CometChat.User(UID)
     user.setName(name)
 
-    await CometChat.createUser(user, authKey).then((user) =>
-      console.log('user created', user)
-    )
+    return await CometChat.createUser(user, authKey).then((user) => user)
   } catch (error) {
     console.log(error)
   }
