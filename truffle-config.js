@@ -21,7 +21,8 @@ module.exports = {
       skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
     },
   },
-
+  contracts_directory: './contracts/',
+  contracts_build_directory: './src/shared/abis/',
   // Configure your compilers
   compilers: {
     solc: {
